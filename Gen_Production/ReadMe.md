@@ -14,7 +14,7 @@ Beam energy changed from 6500 to 6800
 `[QCD] -> [Noborn = QCD]` <br>
 ninja noinstall: this resolves an import error  
 
-### Making the data card
+## Making the gridpack
 
 To set up your environment properly, please follow the [How to produce gridpacks wiki](https://cms-generators.docs.cern.ch/how-to-produce-gridpacks/mg5-amcnlo/#generating-the-gridpack) 
 
@@ -28,5 +28,8 @@ which for the X 1000 and A 100 looks like <br>
 
 This produces the gridpack as a tarball, which leads us into the next step
 
-##
+## Making the LHC file
+This is making the Pythia fragment; at the moment, I am using Rob's Pythia fragment for X to phi phi to 4-photon. Some of the values might need to change. This part need to be done in the correct CMSSW enviorment for the correct year, in this example we are talking about 2024 MC samples, if testing for another year please look up recommended CMSSW version.
+
+
 
