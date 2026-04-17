@@ -11,7 +11,7 @@ Luckily, this analysis has been done in RECO for Run 2, so most of the work has 
 Beam energy changed from 6500 to 6800 
 
 ### proc_card.dat
-`[QCD] -> [Noborn = QCD]` 
+`[QCD] -> [Noborn = QCD]` <br>
 ninja noinstall: this resolves an import error  
 
 ##
