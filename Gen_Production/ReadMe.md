@@ -14,4 +14,19 @@ Beam energy changed from 6500 to 6800
 `[QCD] -> [Noborn = QCD]` <br>
 ninja noinstall: this resolves an import error  
 
+### Making the data card
+
+To set up your environment properly, please follow the [How to produce gridpacks wiki](https://cms-generators.docs.cern.ch/how-to-produce-gridpacks/mg5-amcnlo/#generating-the-gridpack) 
+
+Then you run the command of <br>
+
+`./gridpack_generation.sh NAME CARDDIR RUNHOME QUEUE JOBSTEP SCRAM_ARCH CMSSW_VERSION` <br>
+
+which for the X 1000 and A 100 looks like <br>
+
+`./gridpack_generation.sh XtoAAto4b_X1000A50 cards/examples/XtoAAto4b/` <br>
+
+This produces the gridpack as a tarball, which leads us into the next step
+
 ##
+
