@@ -8,5 +8,5 @@ Luckily, this analysis has been done in RECO for Run 2, so most of the work has 
 
 ### run_card.data
 
-[]
+'[QCD] -> [Noborn = QCD]'
 
