@@ -37,7 +37,7 @@ Please see [XtoPHiPHito4b_pythia.py](https://github.com/augustlee2000/XtoAAto4b/
 
 We now have the LHE, and we want to convert it into a RAW-SIM version. To produce the configuration file that we might want we need to use a cmsDriver command of,
 
-`cmsDriver.py Configuration/GenProduction/python/B2G-RunIIFall18wmLHEGS-02112-fragment.py --eventcontent RAWSIM,LHE --customise Configuration/DataProcessing/Utils.addMonitoring --datatier GEN-SIM,LHE --conditions 102X_upgrade2018_realistic_v11 --beamspot Realistic25ns13TeVEarly2018Collision --customise_commands process.RandomNumberGeneratorService.externalLHEProducer.initialSeed="int(${SEED})" --step LHE,GEN,SIM --geometry DB:Extended --era Run2_2018 --python_filename B2G-RunIIFall18wmLHEGS-02112_1_cfg.py --fileout file:B2G-RunIIFall18wmLHEGS-02112.root --number 232 --number_out 100 --no_exec --mc`
+```cmsDriver.py Configuration/GenProduction/python/B2G-RunIIFall18wmLHEGS-02112-fragment.py --eventcontent RAWSIM,LHE --customise Configuration/DataProcessing/Utils.addMonitoring --datatier GEN-SIM,LHE --conditions 102X_upgrade2018_realistic_v11 --beamspot Realistic25ns13TeVEarly2018Collision --customise_commands process.RandomNumberGeneratorService.externalLHEProducer.initialSeed="int(${SEED})" --step LHE,GEN,SIM --geometry DB:Extended --era Run2_2018 --python_filename B2G-RunIIFall18wmLHEGS-02112_1_cfg.py --fileout file:B2G-RunIIFall18wmLHEGS-02112.root --number 232 --number_out 100 --no_exec --mc```
 
 
 
