@@ -29,9 +29,9 @@ which for the X 1000 and A 100 looks like <br>
 This produces the gridpack as a tarball, which leads us into the next step
 
 ## Making the LHC file
-This next step is taking the tarball to the LHE step; at the moment, I am using Rob's Pythia fragment for X to phi phi to 4-photon. Some of the values might need to change. This part need to be done in the correct CMSSW enviorment for the correct year, in this example we are talking about 2024 MC samples, if testing for another year please look up recommended CMSSW version.
+This next step is taking the tarball to the LHE step; at the moment, I am using Rob's Pythia fragment for X to phi phi to 4-photon. Some of the values might need to change. This part needs to be done in the correct CMSSW environment for the correct year. In this example, we are talking about 2024 MC samples. If testing for another year, please look up the recommended CMSSW version.
 
-Please see [XtoPHiPHito4b_pythia.py](CMS Run Scripts/XtoPhiPhi4b_pythia.py)
+Please see [XtoPHiPHito4b_pythia.py](https://github.com/augustlee2000/XtoAAto4b/blob/main/Gen_Production/CMS%20Run%20Scripts/XtoPhiPhito4b_pythia.py)
 
 
 
