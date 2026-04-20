@@ -103,7 +103,7 @@ $DEFAULT_PDF_MEMBERS = reweight_PDF     ! if pdlabel=lhapdf, this is the lhapdf 
 #*********************************************************************
 # Minimum and maximum pt's (for max, -1 means no cut)                *
 #*********************************************************************
- 0.01  = ptj       ! minimum pt for the jets 
+ 8  = ptj       ! minimum pt for the jets 
   0  = ptb       ! minimum pt for the b 
  10  = pta       ! minimum pt for the photons 
  0  = ptl       ! minimum pt for the charged leptons 
@@ -238,7 +238,7 @@ $DEFAULT_PDF_MEMBERS = reweight_PDF     ! if pdlabel=lhapdf, this is the lhapdf 
 #*********************************************************************
 # Jet measure cuts                                                   *
 #*********************************************************************
- 100   = xqcut   ! minimum kt jet measure between partons
+ 10   = xqcut   ! minimum kt jet measure between partons
 #*********************************************************************
 # Store info for systematics studies                                 *
 # WARNING: If use_syst is T, matched Pythia output is                *
@@ -246,3 +246,4 @@ $DEFAULT_PDF_MEMBERS = reweight_PDF     ! if pdlabel=lhapdf, this is the lhapdf 
 #          reweighting into account!                                 *
 #*********************************************************************
    T  = use_syst      ! Enable systematics studies
+
