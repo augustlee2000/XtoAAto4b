@@ -14,6 +14,24 @@ Beam energy changed from 6500 to 6800
 `[QCD] -> [Noborn = QCD]` <br>
 ninja noinstall: this resolves an import error  
 
+I would suggest now to skip to the Making the gridpack and make a single gridpack so that there are no errors in your cards. Each card in the customizedcards.dat for this analyis will have the lines
+
+```
+set param_card mass 54 X Mass
+set param_card decay 54 AUTO
+set param_card mass 90000054 Phi Mass
+set param_card decay 90000054 AUTO
+```
+
+Which means that for each X and Phi mass you want to make samples of you need to change, for example of a X1500 and Phi 600 events you have,
+
+```
+set param_card mass 54 1.500000e+03
+set param_card decay 54 AUTO
+set param_card mass 90000054 6.000000e+02
+set param_card decay 90000054 AUTO
+```
+
 ## Making the gridpack
 
 To set up your environment properly, please follow the [How to produce gridpacks wiki](https://cms-generators.docs.cern.ch/how-to-produce-gridpacks/mg5-amcnlo/#generating-the-gridpack) 
