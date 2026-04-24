@@ -14,7 +14,7 @@ Beam energy changed from 6500 to 6800
 `[QCD] -> [Noborn = QCD]` <br>
 ninja noinstall: this resolves an import error  
 
-I would suggest now to skip to the Making the gridpack and make a single gridpack so that there are no errors in your cards. Each card in the customizedcards.dat for this analyis will have the lines
+I would suggest now to skip to the Making the Gridpack section and make a single gridpack so that there are no errors in your cards. Each card in the customizedcards.dat for this analyis will have the lines
 
 ```
 set param_card mass 54 X Mass
@@ -32,15 +32,17 @@ set param_card mass 90000054 6.000000e+02
 set param_card decay 90000054 AUTO
 ```
 
-## Making the gridpack
+Now for this analysis and most other you will want to test a large array of these masses, other than spending an afternoon copy and making new cards the script of Generating_cards.py will make all your cards for you as long as you provide it with a json file. This copies over all your cards and names them correctly other than your customizedcards.dat which pulls the X and Phi mass from your json file and updates that card. Now that we have all the cards made for the analysis we can no go back into the Making the Gridpack section.
 
-To set up your environment properly, please follow the [How to produce gridpacks wiki](https://cms-generators.docs.cern.ch/how-to-produce-gridpacks/mg5-amcnlo/#generating-the-gridpack) 
+## Making the Gridpack
+
+To set up your environment properly, please follow the [How to produce gridpacks wiki](https://cms-generators.docs.cern.ch/how-to-produce-gridpacks/mg5-amcnlo/#generating-the-gridpack) Remember for run 3 you want to be on a machine that has a el8 arcitecture. If you are not you can create a singularity using `cmssw-el8`
 
 Then you run the command of <br>
 
 `./gridpack_generation.sh NAME CARDDIR RUNHOME QUEUE JOBSTEP SCRAM_ARCH CMSSW_VERSION` <br>
 
-which for the X 1000 and A 100 looks like <br>
+which for the X 1000 and A 50 looks like <br>
 
 `./gridpack_generation.sh XtoAAto4b_X1000A50 cards/examples/XtoAAto4b/` <br>
 
