@@ -51,34 +51,15 @@ This produces the gridpack as a tarball, which leads us into the next step.
 ### Side note
 This process can take a long time, so you could potentially set up a condor job to automatically make all your gridpacks. Unfortunily ND Teir 3 system doesn't have a quick and easy way to do that, so if you choose that route I highly suggest using LXPLUS. 
 
-## Making the LHE file
-This next step is taking the tarball to the LHE step; at the moment, I am using Rob's Pythia fragment for X to phi phi to 4-photon. Some of the values might need to change. This part needs to be done in the correct CMSSW environment for the correct year. In this example, we are talking about 2024 MC samples. If testing for another year, please look up the recommended CMSSW version.
+## Making the LHE file and GEN-SIM
+This next step is taking the tarball to the LHE/GEN SIM step; at the moment. For this analysis using the general Run 3 pythia cards is works. The pythia fragament controls the hadronization process. Since this analysis final state is 4 b quarks we do not want to change how these b quarks hadronize. You can find this pythia fragament [here](https://gitlab.cern.ch/cms-b2g/b-2-g-m-csample-requests/-/blob/master/genFragments/Hadronizer/13p6TeV/Hadronizer_TuneCP5_13p6TeV_generic_TauFix_LHE_pythia8_cff.py?ref_type=heads) Also, this part needs to be done in the correct CMSSW environment for the correct year. In this example, we are talking about 2024 MC samples. If testing for another year, please look up the recommended CMSSW version. Luckily everything else is has been done many times before and is integrated into CMSSW. So we can use the cmsDriver command below to make the configuration file that we need. Once again this is year specific, to find the correct configuraiton that you need I suggest going to the [MCM Website](https://cms-pdmv-prod.web.cern.ch/mcm/).
 
-Please see [XtoPHiPHito4b_pythia.py](https://github.com/augustlee2000/XtoAAto4b/blob/main/Gen_Production/CMS%20Run%20Scripts/XtoPhiPhito4b_pythia.py)
-
-## LHE to RAW-Sim
-
-We now have the LHE, and we want to convert it into a RAW-SIM version. To produce the configuration file that we might want we need to use a cmsDriver command of,
 
 ```
-cmsDriver.py Configuration/GenProduction/python/B2G-RunIIFall18wmLHEGS-02112-fragment.py \
-  --eventcontent RAWSIM,LHE \
-  --customise Configuration/DataProcessing/Utils.addMonitoring \
-  --datatier GEN-SIM,LHE \
-  --conditions 102X_upgrade2018_realistic_v11 \
-  --beamspot Realistic25ns13TeVEarly2018Collision \
-  --customise_commands 'process.RandomNumberGeneratorService.externalLHEProducer.initialSeed=int(${SEED});process.externalLHEProducer.args=cms.vstring("/path/to/your/gridpack.tar.xz")' \
-  --step LHE,GEN,SIM \
-  --geometry DB:Extended \
-  --era Run2_2018 \
-  --python_filename B2G-RunIIFall18wmLHEGS-02112_1_cfg.py \
-  --fileout file:B2G-RunIIFall18wmLHEGS-02112.root \
-  --number 232 \
-  --number_out 100 \
-  --no_exec \
-  --mc
-```
+cmsDriver.py Configuration/GenProduction/python/Hadronizer_TuneCP5_13p6TeV_generic_TauFix_LHE_pythia8_cff.py --era Run3_2024 --customise Configuration/DataProcessing/Utils.addMonitoring --beamspot DBrealistic --step LHE,GEN,SIM --geometry DB:Extended --conditions 140X_mcRun3_2024_realistic_v26 --customise_commands process.RandomNumberGeneratorService.externalLHEProducer.initialSeed="int(${SEED})" --datatier GEN-SIM,LHE --eventcontent RAWSIM,LHE --python_filename GEN-RunIII2024Summer24wmLHEGS-00001_1_cfg.py --fileout file:GEN-RunIII2024Summer24wmLHEGS-00001.root --number 100 --number_out 100 --no_exec --mc
 
+```
+This will create the GEN SIM root file which now needs to go through, the trigger selection, and then made into AOD->MiniAod->NanoAod
 
 
 
