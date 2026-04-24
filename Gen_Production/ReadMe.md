@@ -46,7 +46,10 @@ which for the X 1000 and A 50 looks like <br>
 
 `./gridpack_generation.sh XtoAAto4b_X1000A50 cards/examples/XtoAAto4b/` <br>
 
-This produces the gridpack as a tarball, which leads us into the next step
+This produces the gridpack as a tarball, which leads us into the next step. 
+
+### Side note
+This process can take a long time, so you could potentially set up a condor job to automatically make all your gridpacks. Unfortunily ND Teir 3 system doesn't have a quick and easy way to do that, so if you choose that route I highly suggest using LXPLUS. 
 
 ## Making the LHE file
 This next step is taking the tarball to the LHE step; at the moment, I am using Rob's Pythia fragment for X to phi phi to 4-photon. Some of the values might need to change. This part needs to be done in the correct CMSSW environment for the correct year. In this example, we are talking about 2024 MC samples. If testing for another year, please look up the recommended CMSSW version.
