@@ -110,7 +110,7 @@ Luckily for us, all the configurations are well-defined on the [TWiki](https://t
 Now that you have both your script and your configuration file you just have to submit it with `crab submit -c example_crabConfig.py`
 
 
-## How to use Crab for Gridpack to GEN-SIM
+## How to use Crab for the Gridpack to GEN-SIM Step
 
 A thing that almost everyone has to do it to make local GEN-SIM root file before asking for central production. The production of a single event take almost 1 minute, so getting hundreads to thousands of these events for every mass hypothosis would be a muliple week too month challenge. Once again crab can come in for the rescure where I was able to produce 2k events per mass hypothosis in under 3 hours. 
 
@@ -124,3 +124,50 @@ source /cvmfs/cms.cern.ch/common/crab-setup.sh
 crab checkwrite --site=T3_US_NotreDame
 ```
 why we have to do the crab setup twice I have no clue but this works. We need to do this because this time around we are submitting using python and not `crab submit`, this is done so that we just have a list of all of our mass hypthosis and we don't need to submit 20 to 30 unqiue crab jobs.
+
+Lets look at GEN_SIM.py script, this take my gridpack and turns it into a GEN-SIM root file. The first thing to look at is,
+
+```
+options = VarParsing('analysis')
+options.register('gridpack',
+    'Xtophiphito4b_X400P40_el8_amd64_gcc10_CMSSW_12_4_8_tarball.tar.xz',
+    VarParsing.multiplicity.singleton,
+    VarParsing.varType.string,
+    'Gridpack tarball filename (basename only; must be in /srv/)')
+options.parseArguments()
+
+```
+
+ and
+ 
+```
+process.externalLHEProducer = cms.EDProducer("ExternalLHEProducer",
+    args = cms.vstring('/srv/' + options.gridpack),
+    generateConcurrently = cms.untracked.bool(False),
+    nEvents = cms.untracked.uint32(100),
+    numberOfParameters = cms.uint32(1),
+    outputFile = cms.string('cmsgrid_final.lhe'),
+    scriptName = cms.FileInPath('GeneratorInterface/LHEInterface/data/run_generic_tarball_cvmfs.sh')
+)
+```
+
+These lines are allowing the command to look like `cmsRun GEN_SIM.py <tarball.tar.xz>` because we aren't only importing the script we have to import the tar ball as well. This tarball get saved in the `/srv/` directory. We can't hardcode the names or its directory so it has to be a parameter that we want to change which is what both these lines are doing. The next line is 
+
+```
+
+generateConcurrently = cms.untracked.bool(False),
+
+```
+
+This make the LHE step only run on one thread, crab can't do multithread processing like this so it is safer to do it this way. And finally,
+
+```
+import random
+process.RandomNumberGeneratorService.externalLHEProducer.initialSeed = random.randint(1, 1000000)
+```
+
+For each job we need a unique random number the likely change is really low we select the same number twice but it could happen.
+
+
+
+
