@@ -109,3 +109,18 @@ Luckily for us, all the configurations are well-defined on the [TWiki](https://t
 
 Now that you have both your script and your configuration file you just have to submit it with `crab submit -c example_crabConfig.py`
 
+
+## How to use Crab for Gridpack to GEN-SIM
+
+A thing that almost everyone has to do it to make local GEN-SIM root file before asking for central production. The production of a single event take almost 1 minute, so getting hundreads to thousands of these events for every mass hypothosis would be a muliple week too month challenge. Once again crab can come in for the rescure where I was able to produce 2k events per mass hypothosis in under 3 hours. 
+
+For the first thing you want to to do is modifiy our start up commands
+
+```
+source /cvmfs/cms.cern.ch/common/crab-setup.sh
+/cvmfs/cms.cern.ch/common/cmssw-el8 --cleanenv -B /scratch365/ -B /opt/ -B /cvmfs/
+cmsenv
+source /cvmfs/cms.cern.ch/common/crab-setup.sh
+crab checkwrite --site=T3_US_NotreDame
+```
+why we have to do the crab setup twice I have no clue but this works. We need to do this because this time around we are submitting using python and not `crab submit`, this is done so that we just have a list of all of our mass hypthosis and we don't need to submit 20 to 30 unqiue crab jobs.
