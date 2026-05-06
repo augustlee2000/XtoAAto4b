@@ -5,3 +5,5 @@ Crab is nativily build into any CMSSW realase and allows useer to use the comput
 
 Before starting this tutorial I will assume you have a proper CMSSW enviroment and a cmsRun script that run locally.
 
+In this folder you will see test.py and test_crabConfig.py these are both taken from a ScoutingNano script, I more or less want to show what you need to change in the test.py script and how a simple crab configuration file looks like. But before we look at that we should make sure crab is set up properly.
+
