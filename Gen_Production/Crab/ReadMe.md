@@ -7,11 +7,27 @@ Before starting this tutorial I will assume you have a proper CMSSW enviroment a
 
 In this folder you will see test.py and test_crabConfig.py these are both taken from a ScoutingNano script, I more or less want to show what you need to change in the test.py script and how a simple crab configuration file looks like. But before we look at that we should make sure crab is set up properly.
 
-At ND there is some unqiue issue that are prevelant that I figured out through some email and trial and error. So before you do anything in crab I recommend following these commands
+At ND there is some unqiue issue that are prevelant that I figured out through some emails and trial and error. So before you do anything in crab I recommend following these commands
 
 ```
 source /cvmfs/cms.cern.ch/common/crab-setup.sh
-/cvmfs/cms.cern.ch/common/cmssw-el9 --cleanenv -B /scratch365/ -B /opt/ -B /cvmfs/
+/cvmfs/cms.cern.ch/common/cmssw-el8 --cleanenv -B /scratch365/ -B /opt/ -B /cvmfs/
 cmsenv
 crab checkwrite --site=T3_US_NotreDame
 ```
+
+This sources how to set up crab, creates a singularity for your CMSSW release (it can be el8 or el9 depending on your release), sets up your cms eviroment, and then the final step is to check if you you can write to the tier 3. 
+
+As a side note it really doesn't like to play with conda enviroment so if you have one active even a base conda enviroment you should do 
+
+```
+conda deactivate
+source /cvmfs/cms.cern.ch/common/crab-setup.sh
+/cvmfs/cms.cern.ch/common/cmssw-el9 --cleanenv -B /scratch365/ -B /opt/ -B /cvmfs/
+conda deactivate
+cmsenv
+crab checkwrite --site=T3_US_NotreDame
+```
+
+Now I am going to high light 
+
