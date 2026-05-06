@@ -28,7 +28,7 @@ conda deactivate
 cmsenv
 crab checkwrite --site=T3_US_NotreDame
 ```
-
+# Basic Script and Crab Configuration
 In this folder, you will see example.py and example_crabConfig.py. These are both taken from a ScoutingNano script. I more or less want to show what you need to change in the test.py script and what a simple crab configuration file looks like. But before we look at that, we should make sure crab is set up properly.
 
 In example.py, the only thing you need to change is how you are pointing the script to your file. So the commented section is what you would normally have when you run the script locally is what is required for crab 
