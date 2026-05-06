@@ -166,8 +166,92 @@ import random
 process.RandomNumberGeneratorService.externalLHEProducer.initialSeed = random.randint(1, 1000000)
 ```
 
+
 For each job we need a unique random number the likely change is really low we select the same number twice but it could happen.
 
+Now we can look at the config file, as I have said before submitting 20+ crab jobs is not what we want to do so lets take a look at the GEN_SIM_crabConfig.py.
+
+```
+from CRABClient.UserUtilities import config
+from CRABAPI.RawCommand import crabCommand
+from multiprocessing import Process
+
+# ── Add / remove mass points here ────────────────────────────────────────────
+MASS_POINTS = [
+    'X400P40',
+    'X500P200',
+    # 'X600P100',
+    # 'X700P300',
+    # ... add the re
+]
+
+GRIDPACK_DIR = '/users/alee43/SignalCreation/Gridpack/genproductions_scripts/bin/MadGraph5_aMCatNLO'
+GRIDPACK_SUFFIX = '_el8_amd64_gcc10_CMSSW_12_4_8_tarball.tar.xz'
+CERN_USERNAME = 'aulee'   # replace
+STORAGE_SITE  = 'T3_US_NotreDame'
+```
+
+This is setting up our imports, mass points, where it can find my gridpacks, the suffix of my gridpack, username and where to store the gridpacks. You should replace this all with your specific needs.
+
+```
+def submit(mp):
+    gridpack = f'{GRIDPACK_DIR}/Xtophiphito4b_{mp}{GRIDPACK_SUFFIX}'
+    tag = f'Xtophiphito4b_{mp}'
+
+    cfg = config()
+
+    cfg.General.requestName      = f'{tag}_GEN-SIM_v9'
+    cfg.General.workArea         = 'crab_projects'
+    cfg.General.transferOutputs  = True
+    cfg.General.transferLogs     = True
+
+    cfg.JobType.pluginName               = 'PrivateMC'
+    cfg.JobType.psetName                 = 'GEN-RunIII2024Summer24wmLHEGS-00001_1_cfg.py'
+    cfg.JobType.inputFiles               = [gridpack]
+    cfg.JobType.pyCfgParams              = [f'gridpack=Xtophiphito4b_{mp}{GRIDPACK_SUFFIX}']
+    cfg.JobType.allowUndistributedCMSSW  = True
+    cfg.JobType.maxMemoryMB              = 3000     # T3_US_NotreDame max for 1-core jobs
+
+    cfg.Data.splitting               = 'EventBased'
+    cfg.Data.unitsPerJob             = 100
+    cfg.Data.totalUnits              = 2000         # 20 jobs x 100 events
+    cfg.Data.publication             = False
+
+    cfg.Site.storageSite = STORAGE_SITE
+
+    crabCommand('submit', config=cfg)
+
+```
+
+This function is defining all of the crab configuration we need. I wante to point out a few things,
+
+```
+cfg.JobType.inputFiles               = [gridpack]
+cfg.JobType.pyCfgParams              = [f'gridpack=Xtophiphito4b_{mp}{GRIDPACK_SUFFIX}']
+
+```
+This is telling crab that we should import our gridpack and that the pyCfgParams that we should give this gridpack as a parameter to our cmsRun command.
+
+```
+cfg.Data.splitting               = 'EventBased'
+cfg.Data.unitsPerJob             = 100
+cfg.Data.totalUnits              = 2000         # 20 jobs x 100 events
+```
+This part is telling to spilt my jobs based on the number of events, each jobs should do 100 events and that it should make 2000 events. Now finally the last part
+
+```
+for mp in MASS_POINTS:
+    p = Process(target=submit, args=(mp,))
+    p.start()
+    p.join()  # wait for each to finish before starting the next
+
+```
+
+This loops over all the MASS_POINTS and submits a new crab job for each.
+
+Now you are done, you can run `python3 GEN_SIM_crabConfig.py` and hopefully everything runs how you want and you can make 2k x mass values of events in a single afternoon. 
+
+This is unfortnuilty not a bullet proof guide, but LLM are good, and I have seen many issue before so please reach out to your favorite AI or myself and I can hopefully get everything fixed!
 
 
 
