@@ -5,7 +5,7 @@ Crab is nativily build into any CMSSW realase and allows useer to use the comput
 
 Before starting this tutorial I will assume you have a proper CMSSW enviroment and a cmsRun script that run locally.
 
-In this folder you will see test.py and test_crabConfig.py these are both taken from a ScoutingNano script, I more or less want to show what you need to change in the test.py script and how a simple crab configuration file looks like. But before we look at that we should make sure crab is set up properly.
+In this folder you will see example.py and example_crabConfig.py these are both taken from a ScoutingNano script, I more or less want to show what you need to change in the test.py script and how a simple crab configuration file looks like. But before we look at that we should make sure crab is set up properly.
 
 At ND there is some unqiue issue that are prevelant that I figured out through some emails and trial and error. So before you do anything in crab I recommend following these commands
 
@@ -28,6 +28,10 @@ conda deactivate
 cmsenv
 crab checkwrite --site=T3_US_NotreDame
 ```
+
+In this folder you will see example.py and example_crabConfig.py these are both taken from a ScoutingNano script, I more or less want to show what you need to change in the test.py script and how a simple crab configuration file looks like. But before we look at that we should make sure crab is set up properly.
+
+
 
 Now I am going to high light 
 
