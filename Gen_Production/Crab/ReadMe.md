@@ -7,3 +7,11 @@ Before starting this tutorial I will assume you have a proper CMSSW enviroment a
 
 In this folder you will see test.py and test_crabConfig.py these are both taken from a ScoutingNano script, I more or less want to show what you need to change in the test.py script and how a simple crab configuration file looks like. But before we look at that we should make sure crab is set up properly.
 
+At ND there is some unqiue issue that are prevelant that I figured out through some email and trial and error. So before you do anything in crab I recommend following these commands
+
+```
+source /cvmfs/cms.cern.ch/common/crab-setup.sh
+/cvmfs/cms.cern.ch/common/cmssw-el9 --cleanenv -B /scratch365/ -B /opt/ -B /cvmfs/
+cmsenv
+crab checkwrite --site=T3_US_NotreDame
+```
