@@ -1,5 +1,5 @@
 # How to use Crab
-Crab is natively built into any CMSSW release and allows users to run complex scripts on their data using the computing pool from any member institution. Think of crab as any other batch system, like HtCondor, but it can run your CMSSW release natively, unlike Condor. So for anyone at ND looking to use a CMSSW release, you have three options: locally, lobster, or crab. While locally is the easiest, it is by far the slowest method and is absolutely impractical once you have to run 10k-plus events most of the time. Lobster is a home build tool developed by Kevin's group which allows you too use the condor worker nodes with your CMSSW release, ND has a large comuting cluser which means that lobsters is your fastest option but from my experience very difficult to get running, if you are planning on spending a large portion of your annalysis runing cmsRun scripts looking into lobster might be benifical. But if you are going to use the cmsRun script occasionally or for a single step in your analysis (like MC generation) then crab should be your choice
+Crab is natively built into any CMSSW release and allows users to run complex scripts on their data using the computing pool from any member institution. Think of crab as any other batch system, like HtCondor, but it can run your CMSSW release natively, unlike Condor. So for anyone at ND looking to use a CMSSW release, you have three options: locally, lobster, or crab. While locally is the easiest, it is by far the slowest method and is absolutely impractical once you have to run 10k-plus events most of the time. Lobster is a home-built tool developed by Kevin's group that allows you to use Condor worker nodes with your CMSSW release. ND has a large computing cluster, which means that Lobster is your fastest option, but from my experience very difficult to get running. If you plan to spend a large portion of your analysis running CMSRun scripts, looking into lobster might be beneficial. But if you are going to use the cmsRun script occasionally or for a single step in your analysis (like MC generation), then crab should be your choice
 
 ## Basic Crab Setup
 
@@ -16,7 +16,7 @@ cmsenv
 crab checkwrite --site=T3_US_NotreDame
 ```
 
-This sources how to set up crab, creates a singularity for your CMSSW release (it can be el8 or el9, depending on your release), sets up your cms eviroment, and then the final step is to check if you can write to the tier 3. 
+This source shows how to set up crab, creates a singularity for your CMSSW release (it can be el8 or el9, depending on your release), sets up your cms environment, and then the final step is to check if you can write to the tier 3. 
 
 As a side note, it really doesn't like to play with a conda environment, so if you have one active, even a base conda environment, you should do 
 
@@ -92,7 +92,7 @@ config.Data.splitting = 'LumiBased'
 config.Data.unitsPerJob = 10  # Reduced from 50 to avoid wall clock time limit
 config.Data.lumiMask = 'https://cms-service-dqmdc.web.cern.ch/CAF/certification/Collisions24/2024F_Golden.json'
 ```
-This job is quite large, so I'll split my jobs based on the luminosity and do 10 luminosity segments per job, and finally, only run on jobs in the golden.json.
+This job is quite large, so I'll split it by luminosity, use 10 luminosity segments per job, and finally run only the jobs in the golden.json.
 
 ```
 config.Data.publication = True
@@ -107,14 +107,14 @@ Now finally this is telling you how to save it, this will save it under the tag 
 Luckily for us, all the configurations are well-defined on the [TWiki](https://twiki.cern.ch/twiki/bin/view/CMSPublic/CRAB3ConfigurationFile), and LLMs like Claude and ChatGPT are pretty good at making them.
 
 
-Now that you have both your script and your configuration file you just have to submit it with `crab submit -c example_crabConfig.py`
+Now that you have both your script and your configuration file, you just have to submit it with `crab submit -c example_crabConfig.py`
 
 
 ## How to use Crab for the Gridpack to GEN-SIM Step
 
-A thing that almost everyone has to do it to make local GEN-SIM root file before asking for central production. The production of a single event take almost 1 minute, so getting hundreads to thousands of these events for every mass hypothosis would be a muliple week too month challenge. Once again crab can come in for the rescure where I was able to produce 2k events per mass hypothosis in under 3 hours. 
+Everyone must create a local GEN-SIM root file before requesting central production. Producing a single event takes almost 1 minute, so generating hundreds to thousands of these events for each mass hypothesis would be a multi-week to a month challenge. Once again, crab can come in for the rescue, where I was able to produce 2k events per mass hypothesis in under 3 hours. 
 
-For the first thing you want to to do is modifiy our start up commands
+For the first thing you want to do is modify our start-up commands
 
 ```
 source /cvmfs/cms.cern.ch/common/crab-setup.sh
@@ -123,9 +123,9 @@ cmsenv
 source /cvmfs/cms.cern.ch/common/crab-setup.sh
 crab checkwrite --site=T3_US_NotreDame
 ```
-why we have to do the crab setup twice I have no clue but this works. We need to do this because this time around we are submitting using python and not `crab submit`, this is done so that we just have a list of all of our mass hypthosis and we don't need to submit 20 to 30 unqiue crab jobs.
+Why we have to do the crab setup twice, I have no clue, but this works. We need to do this because this time around we are submitting using Python and not `crab submit`, this is done so that we just have a list of all of our mass hypotheses, and we don't need to submit 20 to 30 unique crab jobs.
 
-Lets look at GEN_SIM.py script, this take my gridpack and turns it into a GEN-SIM root file. The first thing to look at is,
+Let's look at the GEN_SIM.py script, this take my gridpack and turns it into a GEN-SIM root file. The first thing to look at is,
 
 ```
 options = VarParsing('analysis')
@@ -151,7 +151,7 @@ process.externalLHEProducer = cms.EDProducer("ExternalLHEProducer",
 )
 ```
 
-These lines are allowing the command to look like `cmsRun GEN_SIM.py <tarball.tar.xz>` because we aren't only importing the script we have to import the tar ball as well. This tarball get saved in the `/srv/` directory. We can't hardcode the names or its directory so it has to be a parameter that we want to change which is what both these lines are doing. The next line is 
+These lines allow the command to look like `cmsRun GEN_SIM.py <tarball.tar.xz>` because we aren't only importing the script; we have to import the tarball as well. This tarball gets saved in the `/srv/` directory. We can't hardcode the names or their directory, so it has to be a parameter we can change, which is what both these lines do. The next line is 
 
 ```
 
@@ -159,7 +159,7 @@ generateConcurrently = cms.untracked.bool(False),
 
 ```
 
-This make the LHE step only run on one thread, crab can't do multithread processing like this so it is safer to do it this way. And finally,
+This makes the LHE step only run on one thread; crab can't do multithread processing like this, so it is safer to do it this way. And finally,
 
 ```
 import random
@@ -167,9 +167,9 @@ process.RandomNumberGeneratorService.externalLHEProducer.initialSeed = random.ra
 ```
 
 
-For each job we need a unique random number the likely change is really low we select the same number twice but it could happen.
+For each job, we need a unique random number. The likelihood of the same random number is really low; we could select the same number twice, but it should be super rare
 
-Now we can look at the config file, as I have said before submitting 20+ crab jobs is not what we want to do so lets take a look at the GEN_SIM_crabConfig.py.
+Now we can look at the config file, as I have said before, submitting 20+ crab jobs is not what we want to do, so let's take a look at the GEN_SIM_crabConfig.py.
 
 ```
 from CRABClient.UserUtilities import config
@@ -191,7 +191,7 @@ CERN_USERNAME = 'aulee'   # replace
 STORAGE_SITE  = 'T3_US_NotreDame'
 ```
 
-This is setting up our imports, mass points, where it can find my gridpacks, the suffix of my gridpack, username and where to store the gridpacks. You should replace this all with your specific needs.
+This is setting up our imports, mass points, where it can find my gridpacks, the suffix of my gridpack, username, and where to store the gridpacks. Replace this with your specific needs.
 
 ```
 def submit(mp):
@@ -223,21 +223,21 @@ def submit(mp):
 
 ```
 
-This function is defining all of the crab configuration we need. I wante to point out a few things,
+This function defines all of the crab configuration we need. I want to point out a few things,
 
 ```
 cfg.JobType.inputFiles               = [gridpack]
 cfg.JobType.pyCfgParams              = [f'gridpack=Xtophiphito4b_{mp}{GRIDPACK_SUFFIX}']
 
 ```
-This is telling crab that we should import our gridpack and that the pyCfgParams that we should give this gridpack as a parameter to our cmsRun command.
+This tells the crab that we should import our gridpack and that the pyCfgParams we should pass to this gridpack as a parameter to our cmsRun command.
 
 ```
 cfg.Data.splitting               = 'EventBased'
 cfg.Data.unitsPerJob             = 100
 cfg.Data.totalUnits              = 2000         # 20 jobs x 100 events
 ```
-This part is telling to spilt my jobs based on the number of events, each jobs should do 100 events and that it should make 2000 events. Now finally the last part
+This part tells me to split my jobs based on the number of events: each job should handle 100 events, and it should make 2000 events. Now, finally, the last part
 
 ```
 for mp in MASS_POINTS:
@@ -249,7 +249,8 @@ for mp in MASS_POINTS:
 
 This loops over all the MASS_POINTS and submits a new crab job for each.
 
-Now you are done, you can run `python3 GEN_SIM_crabConfig.py` and hopefully everything runs how you want and you can make 2k x mass values of events in a single afternoon. 
+Now you are done, you can run `python3 GEN_SIM_crabConfig.py` and hopefully everything runs how you want, and you can make 2k x mass values of events in a single afternoon. 
+
 
 This is unfortnuilty not a bullet proof guide, but LLM are good, and I have seen many issue before so please reach out to your favorite AI or myself and I can hopefully get everything fixed!
 
